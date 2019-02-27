@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ResponseModels
+namespace GameLogic
 {
     public class Class1
     {

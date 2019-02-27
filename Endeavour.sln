@@ -5,7 +5,11 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "Endeavour\API.csproj", "{0B9D5D15-E22E-40F3-949C-806A86E8D703}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResponseModels", "ResponseModels\ResponseModels.csproj", "{00086CA8-8DBA-43BF-836B-B1D9241098E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiModels", "ResponseModels\ApiModels.csproj", "{00086CA8-8DBA-43BF-836B-B1D9241098E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLogic", "GameLogic\GameLogic.csproj", "{B1E3D666-0AEB-413D-9F6A-08C73D3F7855}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLogicInterfaces", "GameLogicInterfaces\GameLogicInterfaces.csproj", "{56701E6A-0426-4864-8907-BC3165B096A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{00086CA8-8DBA-43BF-836B-B1D9241098E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00086CA8-8DBA-43BF-836B-B1D9241098E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00086CA8-8DBA-43BF-836B-B1D9241098E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E3D666-0AEB-413D-9F6A-08C73D3F7855}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E3D666-0AEB-413D-9F6A-08C73D3F7855}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E3D666-0AEB-413D-9F6A-08C73D3F7855}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E3D666-0AEB-413D-9F6A-08C73D3F7855}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56701E6A-0426-4864-8907-BC3165B096A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56701E6A-0426-4864-8907-BC3165B096A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56701E6A-0426-4864-8907-BC3165B096A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56701E6A-0426-4864-8907-BC3165B096A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
