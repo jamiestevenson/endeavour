@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLogic", "GameLogic\Game
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLogicInterfaces", "GameLogicInterfaces\GameLogicInterfaces.csproj", "{56701E6A-0426-4864-8907-BC3165B096A5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{411ABBA0-DCDE-45AA-B0FE-8C06670C24ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B1E3D666-0AEB-413D-9F6A-08C73D3F7855} = {411ABBA0-DCDE-45AA-B0FE-8C06670C24ED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98D4230D-35FC-44A3-BEC9-8F03E3CB24DC}

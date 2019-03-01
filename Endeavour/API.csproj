@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GameLogicInterfaces\GameLogicInterfaces.csproj" />
+    <ProjectReference Include="..\GameLogic\GameLogic.csproj" />
     <ProjectReference Include="..\ResponseModels\ApiModels.csproj" />
   </ItemGroup>
 

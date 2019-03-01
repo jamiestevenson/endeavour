@@ -1,4 +1,7 @@
-﻿using System;
+﻿using GameLogicInterfaces.Models;
+using ResponseModels;
+using System;
+using System.Collections.Generic;
 
 namespace GameLogicInterfaces
 {
@@ -7,7 +10,8 @@ namespace GameLogicInterfaces
     /// </summary>
     public interface IApiFulfillment
     {
-        bool DeleteDomain
-            (string id);
+        bool DeleteDomain(string id);
+        List<Domain> AllDomains();
+        Domain GetDomainById(string id);
     }
 }

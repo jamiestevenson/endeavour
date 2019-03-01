@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GameLogic;
+using GameLogicInterfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +26,7 @@ namespace Endeavour
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddScoped<IApiFulfillment, FulfilmentImpl>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
