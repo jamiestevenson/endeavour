@@ -40,7 +40,7 @@ namespace Endeavour.Controllers
             };
         }
 
-        // GET api/domain/5
+        // GET api/actor/5
         [HttpGet("{id}")]
         public ActorDirectoryResponseModel Get(string id)
         {
@@ -62,32 +62,5 @@ namespace Endeavour.Controllers
                 Directory = new ResponseActorDirectoryEntry[] { ResponseMapper.ToResponseActorDirectoryEntry(actor) }
             };
         }
-
-        // POST api/domain
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-            // Create new resource
-        }
-
-        // PUT api/domain/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-            // Update existing resource
-        }
-
-        //// DELETE api/domain/5
-        //[HttpDelete("{id}")]
-        //public void Delete(string id)
-        //{
-        //    if (String.IsNullOrEmpty(id))
-        //    {
-        //        return;
-        //    }
-
-        //    bool success = _backingService.DeleteDomain(id);
-        //    return; // TODO Add in controller responses for failure
-        //}
     }
 }

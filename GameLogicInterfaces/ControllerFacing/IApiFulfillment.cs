@@ -40,9 +40,19 @@ namespace GameLogicInterfaces
         /// <summary>
         /// Gets all of the assets available to a specific *character*
         /// </summary>
-        /// <param name="v"></param>
+        /// <param name="characterId"></param>
         /// <returns></returns>
-        List<Asset> MyAssets(string v);
+        List<Asset> MyAssets(string characterId);
+        Asset GetAssetById(string characterId, string assetId);
+
+        /// <summary>
+        /// Gets the endeavours that are available to all signed in characters
+        /// </summary>
+        /// <returns></returns>
+        List<Endeavour> GetPublicEndeavours();
+        List<Endeavour> GetMyEndeavours(string characterId);
+
+        //TODO - turn on improved nullable checks and use optionals
 
         // Not yet in scope
         //bool DeleteDomain(string id);

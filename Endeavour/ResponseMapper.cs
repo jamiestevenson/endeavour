@@ -10,7 +10,10 @@ using ResponseModels.Domain;
 namespace API
 {
     /// <summary>
-    /// Maps first line models from API fulfilment to response models
+    /// Maps first line models from API fulfilment to response models.
+    /// These are currently very similar, but the response models will be processed
+    /// here to exclude unnecessary data, summarise, and remove some info as
+    /// development goes on.
     /// </summary>
     public class ResponseMapper
     {
@@ -33,6 +36,16 @@ namespace API
                 Description = c.getDirectoryDescription()
             };
 
+        }
+
+        internal static ResponseAsset ToResponseAsset(Asset d)
+        {
+            return new ResponseAsset()
+            {
+                Id = d.Id,
+                Name = d.Name,
+                Description = d.Description
+            };
         }
     }
 }

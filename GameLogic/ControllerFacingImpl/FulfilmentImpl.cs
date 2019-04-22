@@ -11,7 +11,15 @@ namespace GameLogic
         private readonly List<Domain> _domains = new List<Domain>();
         private readonly List<Character> _characters = new List<Character>();
         private readonly List<Asset> _assets = new List<Asset>();
+        /// <summary>
+        /// The ids of assets belonging to a given character
+        /// </summary>
         private readonly IDictionary<string, List<string>> _characterAssets = new Dictionary<string, List<string>>();
+        private readonly List<Endeavour> _endeavours = new List<Endeavour>();
+        /// <summary>
+        /// The ids of endeavours visible to a given character
+        /// </summary>
+        private readonly IDictionary<string, List<string>> _characterEndeavours = new Dictionary<string, List<string>>();
 
         public FulfilmentImpl ()
         {
@@ -60,6 +68,27 @@ namespace GameLogic
             _assets.Add(a2);
             _characterAssets.Add("6bcdb901-dab3-4091-a5c9-000000000030", new List<string>() { "6bcdb901-dab3-4091-a5c9-000000000050" });
 
+            Endeavour e1 = new Endeavour()
+            {
+                Id = "6bcdb901-dab3-4091-a5c9-000000000070",
+                Name = "Test Public Endeavour",
+                IsPublic = true,
+                Result = "The recent sabat incursion is covered up",
+                Description = "Exists to test public endeavours such as calls to arms, cover ups, or public works projects.",
+                EffortRequired = 100
+            };
+            Endeavour e2 = new Endeavour()
+            {
+                Id = "6bcdb901-dab3-4091-a5c9-000000000080",
+                Name = "Test Private Endeavour",
+                Result = "Camarilla influence is increased",
+                Description = "Exists to test private endeavours such as building haven or influence, research, or gaining status",
+                EffortEarnedSoFar = 3,
+                EffortRequired = 15
+            };
+            _endeavours.Add(e1);
+            _endeavours.Add(e2);
+            _characterEndeavours.Add("6bcdb901-dab3-4091-a5c9-000000000030", new List<string> { "6bcdb901-dab3-4091-a5c9-000000000080" });
         }
 
         public List<Character> AllPublicActors()
@@ -91,21 +120,31 @@ namespace GameLogic
             return matches;
         }
 
-        public Asset GetAssetById(string id)
+        public Asset GetAssetById(string playerId, string assetId)
         {
-            var match = _assets.Find(d => d.Id.Equals(id));
-            return match;
+            List<string> assetIds = _characterAssets[playerId];
+            if (assetIds.Contains(assetId))
+            {
+                List<Asset> matches = _assets.FindAll(a => assetIds.Contains(a.Id));
+                var match = _assets.Find(d => d.Id.Equals(assetId));
+                return match;
+            }
+            return null;
         }
 
-        //public bool DeleteDomain(string id)
-        //{
-        //    Domain match = _domains.Find(d => d.Id.Equals(id));
+        public List<Endeavour> GetPublicEndeavours()
+        {
+            return _endeavours.FindAll(e => e.IsPublic);
+        }
 
-        //    if(match != null)
-        //    {
-        //        return _domains.Remove(match);
-        //    }
-        //    return false;
-        //}
+        public List<Endeavour> GetMyEndeavours(string characterId)
+        {
+            if (_characterEndeavours.ContainsKey(characterId))
+            {
+                List<string> endeavourIds = _characterEndeavours[characterId];
+                return _endeavours.FindAll(e => endeavourIds.Contains(e.Id));
+            }
+            return new List<Endeavour>();
+        }
     }
 }
