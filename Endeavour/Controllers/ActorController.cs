@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API;
+using ApiModels.Response;
 using GameLogicInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,50 +12,54 @@ using ResponseModels.Domain;
 
 namespace Endeavour.Controllers
 {
+
+    /// <summary>
+    /// Note that Actors are a combination of player characters, NPCs. retainers and extras, this allows
+    /// the system to generate a 'crowd' of Actors that contains unknown danger an opportunity.
+    /// </summary>
     [Route("api/[controller]")]
-    public class DomainController : Controller
+    public class ActorController : Controller
     {
-        // TODO add injected backing service implementation
         private readonly IApiFulfillment _backingService;
 
-        public DomainController (IApiFulfillment backingService)
+        public ActorController (IApiFulfillment backingService)
         {
             _backingService = backingService; 
         }
 
-        // GET api/domain
+        // GET api/character
         [HttpGet]
-        public DomainsResponseModel Get()
+        public ActorDirectoryResponseModel Get()
         {
-            var domains = _backingService.AllDomains();
+            var actors = _backingService.AllPublicActors();
 
-            return new DomainsResponseModel()
+            return new ActorDirectoryResponseModel()
             {
-                Domains = domains.Select(d => ResponseMapper.ToResponseDomain(d))
-                            .Cast<ResponseDomain>().ToArray<ResponseDomain>()
+                Directory = actors.Select(c => ResponseMapper.ToResponseActorDirectoryEntry(c))
+                            .Cast<ResponseActorDirectoryEntry>().ToArray<ResponseActorDirectoryEntry>()
             };
         }
 
         // GET api/domain/5
         [HttpGet("{id}")]
-        public DomainResponseModel Get(string id)
+        public ActorDirectoryResponseModel Get(string id)
         {
             if (String.IsNullOrEmpty(id.Trim()))
             {
                 return null;
             }
 
-            var domain = _backingService.GetDomainById(id);
+            var actor = _backingService.GetActorById(id);
 
-            if (domain == null)
+            if (actor == null)
             {
                 return null;
             }
 
             // Get a resource
-            return new DomainResponseModel()
+            return new ActorDirectoryResponseModel()
             {
-                Domain = ResponseMapper.ToResponseDomain(domain)
+                Directory = new ResponseActorDirectoryEntry[] { ResponseMapper.ToResponseActorDirectoryEntry(actor) }
             };
         }
 

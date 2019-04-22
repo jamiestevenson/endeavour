@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiModels.Response;
 using GameLogicInterfaces.Models;
 using ResponseModels;
 using ResponseModels.Domain;
@@ -21,6 +22,17 @@ namespace API
                 Name = d.Name,
                 Description = d.Description
             };
+        }
+
+        internal static ResponseActorDirectoryEntry ToResponseActorDirectoryEntry(Character c)
+        {
+            return new ResponseActorDirectoryEntry()
+            {
+                Id = c.Id,
+                Name = c.getDirectoryName(),
+                Description = c.getDirectoryDescription()
+            };
+
         }
     }
 }

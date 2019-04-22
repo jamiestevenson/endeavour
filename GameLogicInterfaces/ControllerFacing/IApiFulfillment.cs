@@ -14,9 +14,18 @@ namespace GameLogicInterfaces
         /// Gets a 'directory' listing of the public information about characters that is public
         /// </summary>
         /// <returns></returns>
-        List<Character> AllPublicCharacters();
+        List<Character> AllPublicActors();
         /// <summary>
-        /// Gets all of the domains for the signed in user
+        /// Gets the directory listing for a specific Actor. May give more information.
+        /// TODO: Differentiate brief and full public directory listings (maybe)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Character GetActorById(string id);
+
+        /// <summary>
+        /// Gets all of the domains for the signed in user (their own domains)
+        /// // TODO - public view of some domains that are not yours? e.g. elysia, the rack, publicly known holdings
         /// </summary>
         /// <returns></returns>
         List<Domain> AllDomains();
@@ -27,6 +36,13 @@ namespace GameLogicInterfaces
         /// <param name="id"></param>
         /// <returns></returns>
         Domain GetDomainById(string id);
+
+        /// <summary>
+        /// Gets all of the assets available to a specific *character*
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        List<Asset> MyAssets(string v);
 
         // Not yet in scope
         //bool DeleteDomain(string id);
