@@ -1,3 +1,4 @@
+using ApiModels.Request;
 using GameLogic;
 using GameLogicInterfaces;
 using GameLogicInterfaces.Models;
@@ -96,7 +97,7 @@ namespace GameLogicTest
         public void ReturnsEndeavours()
         {
             IApiFulfillment impl = new FulfilmentImpl();
-            List<Endeavour> actual = impl.GetPublicEndeavours();
+            List<GameLogicInterfaces.Models.Endeavour> actual = impl.GetPublicEndeavours();
             Assert.NotNull(actual);
             Assert.NotEmpty(actual);
         }
@@ -105,8 +106,8 @@ namespace GameLogicTest
         public void EndeavoursArePopulated()
         {
             IApiFulfillment impl = new FulfilmentImpl();
-            List<Endeavour> actual = impl.GetPublicEndeavours();
-            Endeavour e = actual[0];
+            List<GameLogicInterfaces.Models.Endeavour> actual = impl.GetPublicEndeavours();
+            GameLogicInterfaces.Models.Endeavour e = actual[0];
             Assert.NotNull(e.Id);
             Assert.NotNull(e.Name);
             Assert.NotNull(e.Result);
@@ -118,9 +119,9 @@ namespace GameLogicTest
         public void ReturnsOnlyPublicEndeavours()
         {
             IApiFulfillment impl = new FulfilmentImpl();
-            List<Endeavour> actual = impl.GetPublicEndeavours();
+            List<GameLogicInterfaces.Models.Endeavour> actual = impl.GetPublicEndeavours();
             Assert.Single(actual);
-            Endeavour e = actual[0];
+            GameLogicInterfaces.Models.Endeavour e = actual[0];
             Assert.Equal("6bcdb901-dab3-4091-a5c9-000000000070", e.Id);
             Assert.Equal("Test Public Endeavour", e.Name);
             Assert.Equal("The recent sabat incursion is covered up", e.Result);
@@ -135,7 +136,7 @@ namespace GameLogicTest
             string mrCharFirstId = "6bcdb901-dab3-4091-a5c9-000000000030";
             string msCharacterSecondId = "6bcdb901-dab3-4091-a5c9-000000000040";
             IApiFulfillment impl = new FulfilmentImpl();
-            List<Endeavour> actual = impl.GetMyEndeavours(msCharacterSecondId);
+            List<GameLogicInterfaces.Models.Endeavour> actual = impl.GetMyEndeavours(msCharacterSecondId);
             Assert.Empty(actual);
         }
 
@@ -145,9 +146,28 @@ namespace GameLogicTest
             string mrCharFirstId = "6bcdb901-dab3-4091-a5c9-000000000030";
             string msCharacterSecondId = "6bcdb901-dab3-4091-a5c9-000000000040";
             IApiFulfillment impl = new FulfilmentImpl();
-            List<Endeavour> actual = impl.GetMyEndeavours(mrCharFirstId);
+            List<GameLogicInterfaces.Models.Endeavour> actual = impl.GetMyEndeavours(mrCharFirstId);
             Assert.Single(actual);
-            Endeavour e = actual[0];
+            GameLogicInterfaces.Models.Endeavour e = actual[0];
+            Assert.Equal("6bcdb901-dab3-4091-a5c9-000000000080", e.Id);
+            Assert.Equal("Test Private Endeavour", e.Name);
+            Assert.False(e.IsPublic);
+            Assert.Equal("Camarilla influence is increased", e.Result);
+            Assert.Equal("Exists to test private endeavours such as building haven or influence, research, or gaining status", e.Description);
+            Assert.Equal<uint>(3, e.EffortEarnedSoFar);
+            Assert.Equal<uint>(15, e.EffortRequired);
+        }
+
+        [Fact]
+        public void SubmitEmptyOrder()
+        {
+            string mrCharFirstId = "6bcdb901-dab3-4091-a5c9-000000000030";
+            string msCharacterSecondId = "6bcdb901-dab3-4091-a5c9-000000000040";
+            IApiFulfillment impl = new FulfilmentImpl();
+            OrderRequestModel orm = new OrderRequestModel();
+            OrderRequestResponseModel actual = impl.submitOrders(orm);
+            Assert.Single(actual);
+            GameLogicInterfaces.Models.Endeavour e = actual[0];
             Assert.Equal("6bcdb901-dab3-4091-a5c9-000000000080", e.Id);
             Assert.Equal("Test Private Endeavour", e.Name);
             Assert.False(e.IsPublic);
@@ -161,7 +181,6 @@ namespace GameLogicTest
         public void Todo()
         {
             Assert.True(false);
-            // Add endeavour get and get by id endpoints for public and private endeavours.
             // Turn on enhanced nullables and fix warnings.
             // Add endpoint to submit orders
             // Add basic front end to let it drive interactions

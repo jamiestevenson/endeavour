@@ -49,8 +49,9 @@ namespace GameLogicInterfaces
         /// Gets the endeavours that are available to all signed in characters
         /// </summary>
         /// <returns></returns>
-        List<Endeavour> GetPublicEndeavours();
-        List<Endeavour> GetMyEndeavours(string characterId);
+        List<Models.Endeavour> GetPublicEndeavours();
+
+        List<Models.Endeavour> GetMyEndeavours(string characterId);
 
         //TODO - turn on improved nullable checks and use optionals
 

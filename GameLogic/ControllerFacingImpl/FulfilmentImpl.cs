@@ -15,7 +15,7 @@ namespace GameLogic
         /// The ids of assets belonging to a given character
         /// </summary>
         private readonly IDictionary<string, List<string>> _characterAssets = new Dictionary<string, List<string>>();
-        private readonly List<Endeavour> _endeavours = new List<Endeavour>();
+        private readonly List<GameLogicInterfaces.Models.Endeavour> _endeavours = new List<GameLogicInterfaces.Models.Endeavour>();
         /// <summary>
         /// The ids of endeavours visible to a given character
         /// </summary>
@@ -68,7 +68,7 @@ namespace GameLogic
             _assets.Add(a2);
             _characterAssets.Add("6bcdb901-dab3-4091-a5c9-000000000030", new List<string>() { "6bcdb901-dab3-4091-a5c9-000000000050" });
 
-            Endeavour e1 = new Endeavour()
+            GameLogicInterfaces.Models.Endeavour e1 = new GameLogicInterfaces.Models.Endeavour()
             {
                 Id = "6bcdb901-dab3-4091-a5c9-000000000070",
                 Name = "Test Public Endeavour",
@@ -77,7 +77,7 @@ namespace GameLogic
                 Description = "Exists to test public endeavours such as calls to arms, cover ups, or public works projects.",
                 EffortRequired = 100
             };
-            Endeavour e2 = new Endeavour()
+            GameLogicInterfaces.Models.Endeavour e2 = new GameLogicInterfaces.Models.Endeavour()
             {
                 Id = "6bcdb901-dab3-4091-a5c9-000000000080",
                 Name = "Test Private Endeavour",
@@ -132,19 +132,19 @@ namespace GameLogic
             return null;
         }
 
-        public List<Endeavour> GetPublicEndeavours()
+        public List<GameLogicInterfaces.Models.Endeavour> GetPublicEndeavours()
         {
             return _endeavours.FindAll(e => e.IsPublic);
         }
 
-        public List<Endeavour> GetMyEndeavours(string characterId)
+        public List<GameLogicInterfaces.Models.Endeavour> GetMyEndeavours(string characterId)
         {
             if (_characterEndeavours.ContainsKey(characterId))
             {
                 List<string> endeavourIds = _characterEndeavours[characterId];
                 return _endeavours.FindAll(e => endeavourIds.Contains(e.Id));
             }
-            return new List<Endeavour>();
+            return new List<GameLogicInterfaces.Models.Endeavour>();
         }
     }
 }

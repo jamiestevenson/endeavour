@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLogicInterfaces", "Game
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{411ABBA0-DCDE-45AA-B0FE-8C06670C24ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLogicTest", "GameLogicTest\GameLogicTest.csproj", "{14A31B79-DF1A-48D6-A88E-99C2B3E79A68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameLogicTest", "GameLogicTest\GameLogicTest.csproj", "{14A31B79-DF1A-48D6-A88E-99C2B3E79A68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
