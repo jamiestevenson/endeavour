@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API;
+using ApiModels.Response;
 using GameLogicInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ResponseModels;
-using ResponseModels.Domain;
 
 namespace Endeavour.Controllers
 {

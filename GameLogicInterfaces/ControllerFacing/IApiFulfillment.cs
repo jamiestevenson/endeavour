@@ -1,5 +1,6 @@
-﻿using GameLogicInterfaces.Models;
-using ResponseModels;
+﻿using ApiModels.Request;
+using ApiModels.Response;
+using GameLogicInterfaces.Models;
 using System;
 using System.Collections.Generic;
 
@@ -53,6 +54,14 @@ namespace GameLogicInterfaces
 
         List<Models.Endeavour> GetMyEndeavours(string characterId);
 
+        /// <summary>
+        /// Main submission route for orders. Note that orders are not processed immediately on submission
+        /// </summary>
+        /// <param name="orm"></param>
+        /// <returns>A confirmation that the orders have been given a reference</returns>
+        SubmitOrdersResponseModel SubmitOrders(SubmitOrdersRequestModel orm);
+
+        
         //TODO - turn on improved nullable checks and use optionals
 
         // Not yet in scope

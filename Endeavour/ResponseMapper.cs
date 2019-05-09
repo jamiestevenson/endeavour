@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApiModels.Response;
 using GameLogicInterfaces.Models;
-using ResponseModels;
-using ResponseModels.Domain;
 
 namespace API
 {
@@ -36,6 +34,25 @@ namespace API
                 Description = c.getDirectoryDescription()
             };
 
+        }
+
+        internal static ResponseEndeavourDirectoryEntry ToResponseEndeavourDirectoryEntry(GameLogicInterfaces.Models.Endeavour c)
+        {
+            return new ResponseEndeavourDirectoryEntry()
+            {
+                Id = c.Id,
+                Name = c.Name,
+                ProgressPercent = calculatePercentageProgress(c.EffortEarnedSoFar, c.EffortRequired)
+            };
+        }
+
+        private static uint? calculatePercentageProgress(uint? soFar, uint? goal)
+        {
+            if (soFar.HasValue && soFar.HasValue)
+            {
+                return (uint)soFar / goal;
+            }
+            return null;
         }
 
         internal static ResponseAsset ToResponseAsset(Asset d)

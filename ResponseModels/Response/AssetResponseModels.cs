@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ResponseModels.Domain
+namespace ApiModels.Response
 {
     public class AssetResponseModel
     {

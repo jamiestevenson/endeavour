@@ -1,4 +1,6 @@
-﻿using GameLogicInterfaces;
+﻿using ApiModels.Request;
+using ApiModels.Response;
+using GameLogicInterfaces;
 using GameLogicInterfaces.Models;
 using System;
 using System.Collections.Generic;
@@ -145,6 +147,13 @@ namespace GameLogic
                 return _endeavours.FindAll(e => endeavourIds.Contains(e.Id));
             }
             return new List<GameLogicInterfaces.Models.Endeavour>();
+        }
+
+        public SubmitOrdersResponseModel SubmitOrders(SubmitOrdersRequestModel orm)
+        {
+            return new SubmitOrdersResponseModel()
+            {
+            };
         }
     }
 }

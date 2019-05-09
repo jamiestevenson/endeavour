@@ -1,4 +1,5 @@
 using ApiModels.Request;
+using ApiModels.Response;
 using GameLogic;
 using GameLogicInterfaces;
 using GameLogicInterfaces.Models;
@@ -10,6 +11,8 @@ namespace GameLogicTest
 {
     public class FulfilmentImplTest
     {
+        private static string MR_CHARACTER_FIRST_ID = "6bcdb901-dab3-4091-a5c9-000000000030";
+
         [Fact]
         public void Constructable()
         {
@@ -61,9 +64,8 @@ namespace GameLogicTest
         public void ReturnsAssets()
         {
             // TODO - id always required? any unattached assets 
-            string mrCharFirstId = "6bcdb901-dab3-4091-a5c9-000000000030";
             IApiFulfillment impl = new FulfilmentImpl();
-            List<Asset> actual = impl.MyAssets(mrCharFirstId);
+            List<Asset> actual = impl.MyAssets(MR_CHARACTER_FIRST_ID);
             Assert.NotNull(actual);
             Assert.NotEmpty(actual);
         }
@@ -71,9 +73,8 @@ namespace GameLogicTest
         [Fact]
         public void MyAssetsArePopulated()
         {
-            string mrCharFirstId = "6bcdb901-dab3-4091-a5c9-000000000030";
             IApiFulfillment impl = new FulfilmentImpl();
-            List<Asset> actual = impl.MyAssets(mrCharFirstId);
+            List<Asset> actual = impl.MyAssets(MR_CHARACTER_FIRST_ID);
             Asset anAsset = actual[0];
             Assert.NotNull(anAsset.Id);
             Assert.NotNull(anAsset.Name);
@@ -83,9 +84,8 @@ namespace GameLogicTest
         [Fact]
         public void ReturnsJustMyAssets()
         {
-            string mrCharFirstId = "6bcdb901-dab3-4091-a5c9-000000000030";
             IApiFulfillment impl = new FulfilmentImpl();
-            List<Asset> actual = impl.MyAssets(mrCharFirstId);
+            List<Asset> actual = impl.MyAssets(MR_CHARACTER_FIRST_ID);
             Assert.Single(actual);
             Asset asset = actual[0];
             Assert.Equal("6bcdb901-dab3-4091-a5c9-000000000050", asset.Id);
@@ -133,7 +133,6 @@ namespace GameLogicTest
         [Fact]
         public void ReturnsNoPrivateEndeavoursIfIHaveNone()
         {
-            string mrCharFirstId = "6bcdb901-dab3-4091-a5c9-000000000030";
             string msCharacterSecondId = "6bcdb901-dab3-4091-a5c9-000000000040";
             IApiFulfillment impl = new FulfilmentImpl();
             List<GameLogicInterfaces.Models.Endeavour> actual = impl.GetMyEndeavours(msCharacterSecondId);
@@ -143,10 +142,9 @@ namespace GameLogicTest
         [Fact]
         public void ReturnsOnlyMyPrivateEndeavours()
         { 
-            string mrCharFirstId = "6bcdb901-dab3-4091-a5c9-000000000030";
             string msCharacterSecondId = "6bcdb901-dab3-4091-a5c9-000000000040";
             IApiFulfillment impl = new FulfilmentImpl();
-            List<GameLogicInterfaces.Models.Endeavour> actual = impl.GetMyEndeavours(mrCharFirstId);
+            List<GameLogicInterfaces.Models.Endeavour> actual = impl.GetMyEndeavours(MR_CHARACTER_FIRST_ID);
             Assert.Single(actual);
             GameLogicInterfaces.Models.Endeavour e = actual[0];
             Assert.Equal("6bcdb901-dab3-4091-a5c9-000000000080", e.Id);
@@ -161,20 +159,33 @@ namespace GameLogicTest
         [Fact]
         public void SubmitEmptyOrder()
         {
-            string mrCharFirstId = "6bcdb901-dab3-4091-a5c9-000000000030";
             string msCharacterSecondId = "6bcdb901-dab3-4091-a5c9-000000000040";
             IApiFulfillment impl = new FulfilmentImpl();
-            OrderRequestModel orm = new OrderRequestModel();
-            OrderRequestResponseModel actual = impl.submitOrders(orm);
-            Assert.Single(actual);
-            GameLogicInterfaces.Models.Endeavour e = actual[0];
-            Assert.Equal("6bcdb901-dab3-4091-a5c9-000000000080", e.Id);
-            Assert.Equal("Test Private Endeavour", e.Name);
-            Assert.False(e.IsPublic);
-            Assert.Equal("Camarilla influence is increased", e.Result);
-            Assert.Equal("Exists to test private endeavours such as building haven or influence, research, or gaining status", e.Description);
-            Assert.Equal<uint>(3, e.EffortEarnedSoFar);
-            Assert.Equal<uint>(15, e.EffortRequired);
+            SubmitOrdersRequestModel orm = new SubmitOrdersRequestModel();
+            SubmitOrdersResponseModel actual = impl.SubmitOrders(orm);
+            Assert.NotNull(actual);
+        }
+
+        [Fact]
+        public void SubmitAnOrder_CreateEndeavour()
+        {
+            IApiFulfillment impl = new FulfilmentImpl();
+            SubmitOrdersRequestModel orm = new SubmitOrdersRequestModel()
+            {
+                Orders = new List<OrderRequestModel>()
+                {
+                    new CreateEndeavorOrderRequestModel()
+                    {
+                        Name = "Investigate Arcane Grafitti",
+                        Goal = "Create endeavour to find out more about the obviously arcane writin that has been appearing around Glasgow.",
+                        Method = "Task photgraphy students as assignment to capture grafitti, pass the images to my contact at the art museum",
+                        Assets = new List<string>(),
+                        Actors = new List<string>()
+                    }
+                }
+            };
+            SubmitOrdersResponseModel actual = impl.SubmitOrders(orm);
+            Assert.NotNull(actual);
         }
 
         [Fact]

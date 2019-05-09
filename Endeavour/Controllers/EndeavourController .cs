@@ -7,8 +7,6 @@ using ApiModels.Response;
 using GameLogicInterfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ResponseModels;
-using ResponseModels.Domain;
 
 namespace Endeavour.Controllers
 {
@@ -29,7 +27,7 @@ namespace Endeavour.Controllers
 
         // GET api/endeavour
         [HttpGet]
-        public ActorDirectoryResponseModel Get()
+        public EndeavourDirectoryResponseModel Get()
         {
             var endeavours = _backingService.GetPublicEndeavours();
 
@@ -49,9 +47,9 @@ namespace Endeavour.Controllers
                 return null;
             }
 
-            var endeavour = _backingService.GetMyEndeavours(userId);
+            var endeavours = _backingService.GetMyEndeavours(userId);
 
-            if (endeavour == null)
+            if (endeavours == null)
             {
                 return null;
             }
@@ -59,7 +57,8 @@ namespace Endeavour.Controllers
             // Get a resource
             return new EndeavourDirectoryResponseModel()
             {
-                Directory = new ResponseEndeavourDirectoryEntry[] { ResponseMapper.ToResponseEndeavourDirectoryEntry(actor) }
+                Directory = endeavours.Select(c => ResponseMapper.ToResponseEndeavourDirectoryEntry(c))
+                            .Cast<ResponseEndeavourDirectoryEntry>().ToArray<ResponseEndeavourDirectoryEntry>()
             };
         }
     }
