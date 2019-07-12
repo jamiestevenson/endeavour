@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiModels.Request;
 using ApiModels.Response;
 using GameLogicInterfaces.Models;
 
@@ -34,6 +35,11 @@ namespace API
                 Description = c.getDirectoryDescription()
             };
 
+        }
+
+        internal static OrderResponseModel ToResponseOrder(Order c)
+        {
+            throw new NotImplementedException();
         }
 
         internal static ResponseEndeavourDirectoryEntry ToResponseEndeavourDirectoryEntry(GameLogicInterfaces.Models.Endeavour c)

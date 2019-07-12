@@ -1,6 +1,7 @@
 ﻿using ApiModels.Request;
 using ApiModels.Response;
 using GameLogicInterfaces;
+using GameLogicInterfaces.Datasource;
 using GameLogicInterfaces.Models;
 using System;
 using System.Collections.Generic;
@@ -10,125 +11,51 @@ namespace GameLogic
 {
     public class FulfilmentImpl : IApiFulfillment
     {
-        private readonly List<Domain> _domains = new List<Domain>();
-        private readonly List<Character> _characters = new List<Character>();
-        private readonly List<Asset> _assets = new List<Asset>();
-        /// <summary>
-        /// The ids of assets belonging to a given character
-        /// </summary>
-        private readonly IDictionary<string, List<string>> _characterAssets = new Dictionary<string, List<string>>();
-        private readonly List<GameLogicInterfaces.Models.Endeavour> _endeavours = new List<GameLogicInterfaces.Models.Endeavour>();
-        /// <summary>
-        /// The ids of endeavours visible to a given character
-        /// </summary>
-        private readonly IDictionary<string, List<string>> _characterEndeavours = new Dictionary<string, List<string>>();
+        private IGameData _data;
 
-        public FulfilmentImpl ()
+
+        public FulfilmentImpl(IGameData gameData)
         {
-            Domain d1 = new Domain()
-            {
-                Id = "6bcdb901-dab3-4091-a5c9-000000000010",
-                Name = "An abandoned lot",
-                Description = "This domain is not very interesting"
-            };
-            Domain d2 = new Domain()
-            {         
-                Id = "6bcdb901-dab3-4091-a5c9-000000000020",
-                Name = "A small park",
-                Description = "Well maintained and popular"
-            };
-            _domains.Add(d1);
-            _domains.Add(d2);
-
-            Character c1 = new Character()
-            {
-                Id = "6bcdb901-dab3-4091-a5c9-000000000030",
-                Name = "Mr Character First"
-            };
-            Character c2 = new Character()
-            {
-                Id = "6bcdb901-dab3-4091-a5c9-000000000040",
-                Name = "Ms Character Second",
-                PublicDescription = "Sassy"
-            };
-            _characters.Add(c1);
-            _characters.Add(c2);
-
-            Asset a1 = new Asset()
-            {
-                Id = "6bcdb901-dab3-4091-a5c9-000000000050",
-                Name = "Investments",
-                Description = "Well hidden source of income"
-            };
-            Asset a2 = new Asset()
-            {
-                Id = "6bcdb901-dab3-4091-a5c9-000000000060",
-                Name = "Occult Library",
-                Description = "A collection of books and scrolls with a focus on ancient egypt"
-            };
-            _assets.Add(a1);
-            _assets.Add(a2);
-            _characterAssets.Add("6bcdb901-dab3-4091-a5c9-000000000030", new List<string>() { "6bcdb901-dab3-4091-a5c9-000000000050" });
-
-            GameLogicInterfaces.Models.Endeavour e1 = new GameLogicInterfaces.Models.Endeavour()
-            {
-                Id = "6bcdb901-dab3-4091-a5c9-000000000070",
-                Name = "Test Public Endeavour",
-                IsPublic = true,
-                Result = "The recent sabat incursion is covered up",
-                Description = "Exists to test public endeavours such as calls to arms, cover ups, or public works projects.",
-                EffortRequired = 100
-            };
-            GameLogicInterfaces.Models.Endeavour e2 = new GameLogicInterfaces.Models.Endeavour()
-            {
-                Id = "6bcdb901-dab3-4091-a5c9-000000000080",
-                Name = "Test Private Endeavour",
-                Result = "Camarilla influence is increased",
-                Description = "Exists to test private endeavours such as building haven or influence, research, or gaining status",
-                EffortEarnedSoFar = 3,
-                EffortRequired = 15
-            };
-            _endeavours.Add(e1);
-            _endeavours.Add(e2);
-            _characterEndeavours.Add("6bcdb901-dab3-4091-a5c9-000000000030", new List<string> { "6bcdb901-dab3-4091-a5c9-000000000080" });
+            this._data = gameData;
         }
 
         public List<Character> AllPublicActors()
         {
-            return _characters;
+            // Will have to filter out non-public actors
+            return _data.GetActors();
         }
 
         public Character GetActorById(string id)
         {
-            var match = _characters.Find(d => d.Id.Equals(id));
+            var match = _data.GetActors().Find(d => d.Id.Equals(id));
             return match;
         }
 
         public List<Domain> AllDomains()
         {
-            return _domains;
+            return _data.GetDomains();
         }
 
         public Domain GetDomainById(string id)
         {
-            var match = _domains.Find(d => d.Id.Equals(id));
+            var match = _data.GetDomains().Find(d => d.Id.Equals(id));
             return match;
         }
 
-        public List<Asset> MyAssets(string playerId)
+        public List<Asset> MyAssets(string characterId)
         {
-            List<string> assetIds = _characterAssets[playerId];
-            List<Asset> matches = _assets.FindAll(a => assetIds.Contains(a.Id));
+            List<string> assetIds = _data.AssetsForCharacter(characterId);
+            List<Asset> matches = _data.Assets().FindAll(a => assetIds.Contains(a.Id));
             return matches;
         }
 
-        public Asset GetAssetById(string playerId, string assetId)
+        public Asset GetAssetById(string characterId, string assetId)
         {
-            List<string> assetIds = _characterAssets[playerId];
+            List<string> assetIds = _data.AssetsForCharacter(characterId);
             if (assetIds.Contains(assetId))
             {
-                List<Asset> matches = _assets.FindAll(a => assetIds.Contains(a.Id));
-                var match = _assets.Find(d => d.Id.Equals(assetId));
+                List<Asset> matches = _data.Assets().FindAll(a => assetIds.Contains(a.Id));
+                var match = _data.Assets().Find(d => d.Id.Equals(assetId));
                 return match;
             }
             return null;
@@ -136,24 +63,43 @@ namespace GameLogic
 
         public List<GameLogicInterfaces.Models.Endeavour> GetPublicEndeavours()
         {
-            return _endeavours.FindAll(e => e.IsPublic);
+            return _data.Endeavours().FindAll(e => e.IsPublic);
         }
 
         public List<GameLogicInterfaces.Models.Endeavour> GetMyEndeavours(string characterId)
         {
-            if (_characterEndeavours.ContainsKey(characterId))
-            {
-                List<string> endeavourIds = _characterEndeavours[characterId];
-                return _endeavours.FindAll(e => endeavourIds.Contains(e.Id));
-            }
-            return new List<GameLogicInterfaces.Models.Endeavour>();
+            List<string> endeavourIds = _data.EndeavoursForCharacter(characterId);
+            return _data.Endeavours().FindAll(e => endeavourIds.Contains(e.Id));
         }
 
-        public SubmitOrdersResponseModel SubmitOrders(SubmitOrdersRequestModel orm)
+        public List<Order> SubmitOrders(SubmitOrdersRequestModel orm, String characterId)
         {
-            return new SubmitOrdersResponseModel()
+            var response = new List<Order>();
+
+            //TODO send orders to orders repo
+
+            foreach (OrderRequestModel submission in orm.Orders)
             {
+                response.Add(MapToPending(submission));
+            }
+
+            return response;
+        }
+
+        private Order MapToPending(OrderRequestModel orm)
+        {
+            return new Order
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = orm.Name,
+                Status = OrderStatus.PENDING
             };
+        }
+
+        public List<Order> GetLastOrders()
+        {
+            // TODO implement
+            throw new NotImplementedException();
         }
     }
 }

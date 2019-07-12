@@ -25,7 +25,7 @@ namespace Endeavour.Controllers
             _backingService = backingService; 
         }
 
-        // GET api/character
+        // GET api/actor
         [HttpGet]
         public ActorDirectoryResponseModel Get()
         {

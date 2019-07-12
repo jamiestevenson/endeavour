@@ -26,11 +26,11 @@ namespace ApiModels.Response
 
     public class OrderRequestModel
     {
+        public string Name { get; set; }
     }
 
     public class CreateEndeavorOrderRequestModel : OrderRequestModel
     {
-        public string Name { get; set; }
         public string Goal { get; set; }
         public string Method { get; set; }
         public List<string> Assets { get; set; }
@@ -39,7 +39,7 @@ namespace ApiModels.Response
 
     public class SupportEndeavorOrderRequestModel : OrderRequestModel
     {
-        public string Id { get; set; }
+        public string IdToSupport { get; set; }
         public string MethodOfSupport { get; set; }
         public List<string> Assets { get; set; }
         public List<string> Actors { get; set; }
@@ -47,7 +47,7 @@ namespace ApiModels.Response
 
     public class OpposeEndeavorOrderRequestModel : OrderRequestModel
     {
-        public string Id { get; set; }
+        public string IdToOppose { get; set; }
         public string MethodOfOpposition { get; set; }
         public List<string> Assets { get; set; }
         public List<string> Actors { get; set; }

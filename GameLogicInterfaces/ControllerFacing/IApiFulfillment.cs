@@ -59,9 +59,14 @@ namespace GameLogicInterfaces
         /// </summary>
         /// <param name="orm"></param>
         /// <returns>A confirmation that the orders have been given a reference</returns>
-        SubmitOrdersResponseModel SubmitOrders(SubmitOrdersRequestModel orm);
+        List<Order> SubmitOrders(SubmitOrdersRequestModel orm, String characterId);
 
-        
+        /// <summary>
+        /// Gets the last set of orders submitted, whether pending or not
+        /// </summary>
+        /// <returns></returns>
+        List<Order> GetLastOrders();
+
         //TODO - turn on improved nullable checks and use optionals
 
         // Not yet in scope
