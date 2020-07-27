@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 using API;
 using ApiModels.Request;
 using ApiModels.Response;
 using GameLogicInterfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Endeavour.Controllers
@@ -16,12 +14,13 @@ namespace Endeavour.Controllers
     /// Note that Orders are composites of other API entities and this Controller is
     /// used to interrogate and update the state of these composites.
     /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
-    public class OrderController : Controller
+    public class OrdersController : Controller
     {
         private readonly IApiFulfillment _backingService;
 
-        public OrderController(IApiFulfillment backingService)
+        public OrdersController(IApiFulfillment backingService)
         {
             _backingService = backingService; 
         }
@@ -34,14 +33,13 @@ namespace Endeavour.Controllers
 
             return new OrdersResponseModel()
             {
-                Orders = orders.Select(c => ResponseMapper.ToResponseOrder(c))
-                            .Cast<OrderResponseModel>().ToArray<OrderResponseModel>()
+                Orders = orders.Select(c => ResponseMapper.ToResponseOrder(c)).ToArray<OrderResponseModel>()
             };
         }
 
         // GET api/endeavour/5
         [HttpGet("{id}")]
-        public EndeavourDirectoryResponseModel Get(string userId)
+        public EndeavourDirectoryResponseModel Get([Required] string userId)
         {
             if (String.IsNullOrEmpty(userId.Trim()))
             {

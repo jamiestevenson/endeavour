@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using API;
@@ -15,12 +16,13 @@ namespace Endeavour.Controllers
     /// Note that Endeavours are composites of other API entities and this Controller is
     /// used to interrogate and update the state of these composites.
     /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
-    public class EndeavourController : Controller
+    public class EndeavoursController : Controller
     {
         private readonly IApiFulfillment _backingService;
 
-        public EndeavourController(IApiFulfillment backingService)
+        public EndeavoursController(IApiFulfillment backingService)
         {
             _backingService = backingService; 
         }
@@ -33,14 +35,13 @@ namespace Endeavour.Controllers
 
             return new EndeavourDirectoryResponseModel()
             {
-                Directory = endeavours.Select(c => ResponseMapper.ToResponseEndeavourDirectoryEntry(c))
-                            .Cast<ResponseEndeavourDirectoryEntry>().ToArray<ResponseEndeavourDirectoryEntry>()
+                Directory = endeavours.Select(c => ResponseMapper.ToResponseEndeavourDirectoryEntry(c)).ToArray<ResponseEndeavourDirectoryEntry>()
             };
         }
 
         // GET api/endeavour/5
         [HttpGet("{id}")]
-        public EndeavourDirectoryResponseModel Get(string userId)
+        public EndeavourDirectoryResponseModel Get([Required] string userId)
         {
             if (String.IsNullOrEmpty(userId.Trim()))
             {
@@ -57,8 +58,7 @@ namespace Endeavour.Controllers
             // Get a resource
             return new EndeavourDirectoryResponseModel()
             {
-                Directory = endeavours.Select(c => ResponseMapper.ToResponseEndeavourDirectoryEntry(c))
-                            .Cast<ResponseEndeavourDirectoryEntry>().ToArray<ResponseEndeavourDirectoryEntry>()
+                Directory = endeavours.Select(c => ResponseMapper.ToResponseEndeavourDirectoryEntry(c)).ToArray<ResponseEndeavourDirectoryEntry>()
             };
         }
     }

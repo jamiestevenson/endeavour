@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using API;
@@ -10,13 +11,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Endeavour.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
-    public class DomainController : Controller
+    public class DomainsController : Controller
     {
         // TODO add injected backing service implementation
         private readonly IApiFulfillment _backingService;
 
-        public DomainController (IApiFulfillment backingService)
+        public DomainsController (IApiFulfillment backingService)
         {
             _backingService = backingService; 
         }
@@ -29,14 +31,13 @@ namespace Endeavour.Controllers
 
             return new DomainsResponseModel()
             {
-                Domains = domains.Select(d => ResponseMapper.ToResponseDomain(d))
-                            .Cast<ResponseDomain>().ToArray<ResponseDomain>()
+                Domains = domains.Select(d => ResponseMapper.ToResponseDomain(d)).ToArray<ResponseDomain>()
             };
         }
 
         // GET api/domain/5
         [HttpGet("{id}")]
-        public DomainResponseModel Get(string id)
+        public DomainResponseModel Get([Required]string id)
         {
             if (String.IsNullOrEmpty(id.Trim()))
             {
@@ -62,13 +63,15 @@ namespace Endeavour.Controllers
         public void Post([FromBody]string value)
         {
             // Create new resource
+            // Update to have request model
         }
 
         // PUT api/domain/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put([Required]int id, [FromBody]string value)
         {
             // Update existing resource
+            // Update to have request model
         }
 
         //// DELETE api/domain/5

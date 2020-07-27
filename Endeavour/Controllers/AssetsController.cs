@@ -10,13 +10,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Endeavour.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
-    public class AssetController : Controller
+    public class AssetsController : Controller
     {
         // TODO add injected backing service implementation
         private readonly IApiFulfillment _backingService;
 
-        public AssetController(IApiFulfillment backingService)
+        public AssetsController(IApiFulfillment backingService)
         {
             _backingService = backingService;
         }
@@ -33,8 +34,7 @@ namespace Endeavour.Controllers
 
             return new AssetResponseModel()
             {
-                Assets = assets.Select(a => ResponseMapper.ToResponseAsset(a))
-                            .Cast<ResponseAsset>().ToArray<ResponseAsset>()
+                Assets = assets.Select(a => ResponseMapper.ToResponseAsset(a)).ToArray<ResponseAsset>()
             };
         }
 

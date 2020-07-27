@@ -52,9 +52,10 @@ namespace API
             };
         }
 
+        // TODO unit test
         private static uint? calculatePercentageProgress(uint? soFar, uint? goal)
         {
-            if (soFar.HasValue && soFar.HasValue)
+            if (soFar.HasValue && goal.HasValue)
             {
                 return (uint)soFar / goal;
             }

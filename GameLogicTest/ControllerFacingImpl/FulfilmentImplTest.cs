@@ -1,10 +1,8 @@
-using ApiModels.Request;
 using ApiModels.Response;
 using GameLogic;
 using GameLogicInterfaces;
 using GameLogicInterfaces.Datasource;
 using GameLogicInterfaces.Models;
-using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -65,7 +63,7 @@ namespace GameLogicTest
         [Fact]
         public void ReturnsAssets()
         {
-            // TODO - id always required? any unattached assets 
+            // TODO - id always required? any unattached assets?
             IApiFulfillment impl = new FulfilmentImpl(new GameDataStub());
             List<Asset> actual = impl.MyAssets(MR_CHARACTER_FIRST_ID);
             Assert.NotNull(actual);
@@ -253,7 +251,7 @@ namespace GameLogicTest
         {
             Assert.True(false);
 
-            // Fix dependency injeciton for gamadata source - this fails on run and unit tests at the moment
+            // Fix dependency injection for gamadata source - this fails on run and unit tests at the moment
             // Pull mock data out of fulfulment impl to mock data source
             // Add basic front end to let it drive interactions
             // Add login and sign up
@@ -263,6 +261,7 @@ namespace GameLogicTest
             // Canvas users for downtime action types
             // Build GM screen
             // Turn on enhanced nullables and fix warnings (on hold until C# 8.0 release).
+            // Implement suggestions here: https://docs.microsoft.com/en-us/aspnet/core/web-api/handle-errors?view=aspnetcore-3.1
         }
     }
 }
